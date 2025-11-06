@@ -3,12 +3,11 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
+import html2canvas from 'html2canvas';
 import { CheckCircle, MapPin, Calendar as CalendarIcon, Clock, Download, Share2, Check, Copy } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
-
 // Generate a unique pickup code (e.g., GC-AB12CD34)
 const generatePickupCode = (seed: string) => {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
@@ -141,15 +140,23 @@ export default function PickupSummary() {
     if (!element) return;
 
     try {
-      // @ts-ignore - scale is a valid option but not in the type definitions
-      const canvas = await html2canvas(element, {
+      // Define html2canvas options with windowWidth and windowHeight for higher resolution
+      const options = {
+        windowWidth: element.scrollWidth * 2,
+        windowHeight: element.scrollHeight * 2,
         scale: 2,
         useCORS: true,
         logging: false,
         backgroundColor: '#ffffff',
         width: element.scrollWidth,
-        height: element.scrollHeight
-      });
+        height: element.scrollHeight,
+        x: 0,
+        y: 0,
+        scrollX: 0,
+        scrollY: 0
+      } as any; // Using type assertion to bypass TypeScript error
+      
+      const canvas = await html2canvas(element, options);
 
       const link = document.createElement('a');
       link.download = 'pickup-summary.png';

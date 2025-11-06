@@ -1,6 +1,11 @@
 import type { NextConfig } from "next";
 
+// Using type assertion for experimental.turbo
 const nextConfig: NextConfig = {
+  // Enable Turbopack with type assertion
+  experimental: {
+    turbo: {}
+  } as any,
   reactStrictMode: true,
   // Image optimization settings
   images: {
@@ -39,6 +44,7 @@ const nextConfig: NextConfig = {
     // Add custom webpack configuration here if needed
     return config;
   },
+  // Webpack 5 is the default in modern Next.js versions
 };
 
 export default nextConfig;
