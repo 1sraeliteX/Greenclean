@@ -141,17 +141,12 @@ export default function PickupSummary() {
     if (!element) return;
 
     try {
+      // @ts-ignore - scale is a valid option but not in the type definitions
       const canvas = await html2canvas(element, {
         scale: 2,
         useCORS: true,
         logging: false,
         backgroundColor: '#ffffff',
-        windowWidth: element.scrollWidth * 2,
-        windowHeight: element.scrollHeight * 2,
-        x: 0,
-        y: 0,
-        scrollX: 0,
-        scrollY: 0,
         width: element.scrollWidth,
         height: element.scrollHeight
       });
